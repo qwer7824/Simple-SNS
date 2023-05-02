@@ -42,7 +42,6 @@ public class UserControllerTest {
         String userName = "userName";
         String password = "password";
 
-        //TODO : mocking
         when(userService.join(userName,password)).thenReturn(mock(User.class));
 
         mockMvc.perform(post("/api/v1/users/join")
