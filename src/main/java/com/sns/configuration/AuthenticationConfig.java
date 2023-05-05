@@ -3,7 +3,6 @@ package com.sns.configuration;
 import com.sns.configuration.filter.JwtTokenFilter;
 import com.sns.exception.CustomAuthenticationEntryPoint;
 import com.sns.service.UserService;
-import com.sns.util.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +21,11 @@ public class AuthenticationConfig extends WebSecurityConfigurerAdapter {
     private final UserService userService;
     @Value("${jwt.secret-key}")
     private String key;
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+    web.ignoring().regexMatchers("^(?!/api/).*");
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
