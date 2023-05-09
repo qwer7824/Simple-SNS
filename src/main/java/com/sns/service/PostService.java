@@ -2,16 +2,12 @@ package com.sns.service;
 
 import com.sns.exception.ErrorCode;
 import com.sns.exception.SnsApplicationException;
+import com.sns.model.AlarmArgs;
+import com.sns.model.AlarmType;
 import com.sns.model.Comment;
-import com.sns.model.Entity.CommentEntity;
-import com.sns.model.Entity.LikeEntity;
-import com.sns.model.Entity.PostEntity;
-import com.sns.model.Entity.UserEntity;
+import com.sns.model.Entity.*;
 import com.sns.model.Post;
-import com.sns.repository.CommentEntityRepository;
-import com.sns.repository.LikeEntityRepository;
-import com.sns.repository.PostEntityRepository;
-import com.sns.repository.UserEntityRepository;
+import com.sns.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -29,6 +25,7 @@ public class PostService {
     private final UserEntityRepository userEntityRepository;
     private final LikeEntityRepository likeEntityRepository;
     private final CommentEntityRepository commentEntityRepository;
+    private final AlarmEntityRepository alarmEntityRepository;
 
     @Transactional
     public void create(String title, String body, String userName) {
@@ -82,6 +79,8 @@ public class PostService {
         });
 
         likeEntityRepository.save(LikeEntity.of(userEntity,postEntity));
+        alarmEntityRepository.save(AlarmEntity.of(postEntity.getUser(), AlarmType.NEW_LIKE_ON_POST,new AlarmArgs(userEntity.getId(),postEntity.getId())));
+
     }
 
     @Transactional
@@ -100,6 +99,8 @@ public class PostService {
         UserEntity userEntity = getUserEntityOrException(userName);
 
         commentEntityRepository.save(CommentEntity.of(userEntity,postEntity,comment));
+
+        alarmEntityRepository.save(AlarmEntity.of(postEntity.getUser(), AlarmType.NEW_COMMENT_ON_POST,new AlarmArgs(userEntity.getId(),postEntity.getId())));
     }
 
     public Page<Comment> getComments(Integer postId, Pageable pageable){
