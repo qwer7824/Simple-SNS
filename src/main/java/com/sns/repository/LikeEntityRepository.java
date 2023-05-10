@@ -28,5 +28,8 @@ public interface LikeEntityRepository extends JpaRepository<LikeEntity, Integer>
 
     List<LikeEntity> findByPost(PostEntity post);
 
-
+    @Transactional
+    @Modifying
+    @Query("UPDATE LikeEntity entity SET deleted_at = NOW() where entity.post = :post")
+    void deleteAllByPost(@Param("post") PostEntity postEntity);
 }
