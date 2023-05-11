@@ -1,19 +1,24 @@
 spring.datasource:
   hikari.maximum-pool-size: 4
-  url: jdbc:postgresql://ec2-3-208-74-199.compute-1.amazonaws.com/db9om3e04cnsk9
-  username: jfnpbrtsgfmwid
-  password: f3163b2627e0c1d9823bf52b33e08bb9e45f7dff0d451af622de0bb7d0d6e0a9
-  platform: postgres
+  url: jdbc:postgresql://ec2-44-212-250-48.compute-1.amazonaws.com/dbem8nke2ijtss
+  username: attcuoepsjzsxv
+  password: ed3d45422c726524e54c46ff960f872b32597de95645665c37d1bd1dc79de48a
   driver-class-name: org.postgresql.Driver
 
 spring.jpa:
   database: postgresql
   hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
   hibernate.ddl-auto: update
-  properties.hibernate.format_sql: true
   show-sql: true
 
 jwt:
   secret-key: fast_campus_simple.sns-application-2023.secret_key
     #30 days
   token.expired-time-ms: 25920000
+spring:
+  sql:
+    init:
+      platform: postgres
+  redis:
+    url: redis://:pc2b7a0f7c94305222fb4614777ea0d878a8012ce0da691fee87df8948724b5d2@ec2-34-207-26-93.compute-1.amazonaws.com:7219
+
